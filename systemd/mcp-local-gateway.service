@@ -1,1 +1,22 @@
+[Unit]
+Description=MCP Local Gateway (Gunicorn)
+After=network.target redis-server.service
 
+[Service]
+User=logictech
+Group=www-data
+WorkingDirectory=/home/logictech/logictech1
+EnvironmentFile=/home/logictech/logictech1/.env
+Environment="PATH=/home/logictech/logictech1/venv/bin"
+ExecStart=/home/logictech/logictech1/venv/bin/gunicorn \
+    --workers 3 \
+    --umask 007 \
+    --bind unix:/home/logictech/logictech1/gateway.sock \
+    --access-logfile /home/logictech/logictech1/access.log \
+    --error-logfile /home/logictech/logictech1/error.log \
+    app:app
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
