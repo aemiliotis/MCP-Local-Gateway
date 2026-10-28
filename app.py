@@ -4,7 +4,7 @@ A self-hosted governance layer for MCP servers:
 API key auth, Redis-backed rate limiting, cost estimation,
 budget caps, trust checks, and audit logging.
 
-Author: <your name>
+Author: Apostolos Emm. Miliotis
 License: MIT
 """
 
@@ -31,9 +31,10 @@ import io
 import qrcode
 
 # ------------------------------------------------------------------
-# Configuration (override with environment variables)
+# Configuration (all overridable via environment variables)
 # ------------------------------------------------------------------
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
 API_DB = os.environ.get("API_DB", os.path.join(BASE_DIR, "api.db"))
 GATEWAY_DB = os.environ.get("GATEWAY_DB", os.path.join(BASE_DIR, "gateway.db"))
 
@@ -44,7 +45,7 @@ TOKENS_PER_ARG_BYTE = float(os.environ.get("TOKENS_PER_ARG_BYTE", "0.25"))
 MCP_TRUST_API = os.environ.get("MCP_TRUST_API", "http://127.0.0.1:8000")
 REDIS_URL = os.environ.get("REDIS_URL", "redis://localhost:6379/0")
 
-# MCP servers: slug -> base URL. Override via MCP_SERVERS_JSON env var.
+# MCP servers: slug -> base URL. Override via MCP_SERVERS_JSON.
 _default_servers = {
     "weather": "http://127.0.0.1:9001",
     "database": "http://127.0.0.1:9002",
@@ -52,11 +53,9 @@ _default_servers = {
 MCP_SERVERS = json.loads(os.environ.get("MCP_SERVERS_JSON", json.dumps(_default_servers)))
 
 # API keys: sha256(raw_key) -> tenant name.
-# Override via API_KEYS_JSON env var: {"<sha256>": "<tenant>"}
-_default_keys = {
-    hashlib.sha256(b"test-key-123").hexdigest(): "tenant-1",
-    hashlib.sha256(b"test-key-456").hexdigest(): "tenant-2",
-}
+# Override via API_KEYS_JSON. Empty by default: you MUST set this
+# before the gateway will accept authenticated requests.
+_default_keys = {}
 VALID_KEY_HASHES = json.loads(os.environ.get("API_KEYS_JSON", json.dumps(_default_keys)))
 
 app = Flask(__name__)
@@ -669,11 +668,11 @@ pre{background:#f6f6f6;padding:.8rem;overflow:auto;max-height:400px;border-radiu
 small{color:#666}
 </style></head><body>
 <h1>MCP Local Gateway</h1>
-<p>Δοκιμαστής API. Χρησιμοποίησε <code>X-API-Key</code> για authenticated endpoints.</p>
+<p>API tester. Use <code>X-API-Key</code> for authenticated endpoints.</p>
 
 <section>
   <h3>API Key</h3>
-  <input id="api-key" value="test-key-123" placeholder="X-API-Key">
+  <input id="api-key" value="" placeholder="X-API-Key">
 </section>
 
 <section>
