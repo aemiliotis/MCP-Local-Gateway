@@ -4,7 +4,7 @@ A self-hosted governance layer for MCP servers:
 API key auth, Redis-backed rate limiting, cost estimation,
 budget caps, trust checks, and audit logging.
 
-Author: Apostolos Emm. Miliotis
+Author: aemiliotis
 License: MIT
 """
 
@@ -50,15 +50,30 @@ _default_servers = {
     "weather": "http://127.0.0.1:9001",
     "database": "http://127.0.0.1:9002",
 }
-MCP_SERVERS = json.loads(os.environ.get("MCP_SERVERS_JSON", json.dumps(_default_servers)))
+MCP_SERVERS = json.loads(
+    os.environ.get("MCP_SERVERS_JSON", json.dumps(_default_servers))
+)
 
 # API keys: sha256(raw_key) -> tenant name.
-# Override via API_KEYS_JSON. Empty by default: you MUST set this
-# before the gateway will accept authenticated requests.
-_default_keys = {}
-VALID_KEY_HASHES = json.loads(os.environ.get("API_KEYS_JSON", json.dumps(_default_keys)))
+# Empty by default. Override via API_KEYS_JSON.
+VALID_KEY_HASHES = json.loads(os.environ.get("API_KEYS_JSON", "{}"))
+
+# Test keys are ONLY added when TESTING=1 is set.
+# NEVER set TESTING=1 in production.
+if os.environ.get("TESTING") == "1":
+    _TEST_KEYS = {
+        hashlib.sha256(b"test-key-123").hexdigest(): "tenant-1",
+        hashlib.sha256(b"test-key-456").hexdigest(): "tenant-2",
+    }
+    for _h, _t in _TEST_KEYS.items():
+        VALID_KEY_HASHES.setdefault(_h, _t)
 
 app = Flask(__name__)
+
+# Max request body size (DoS protection). Default 1 MB.
+app.config["MAX_CONTENT_LENGTH"] = int(
+    os.environ.get("MAX_CONTENT_LENGTH", str(1 * 1024 * 1024))
+)
 
 
 # ------------------------------------------------------------------
