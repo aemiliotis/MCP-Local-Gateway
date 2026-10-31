@@ -156,3 +156,5 @@ Rate limits and budget caps are enforced server-side; don't rely on the client.
 
 
 [![M8ven Score](https://m8ven.ai/badge/mcp/aemiliotis/mcp-local-gateway)](https://m8ven.ai/mcp/aemiliotis/mcp-local-gateway?s=readme)
+
+[![M8ven Score](https://m8ven.ai/badge/mcp/aemiliotis-mcp-local-gateway-vnrtpy?v=8521289aa272df08b98100b4d0757ac7)](https://m8ven.ai/mcp/aemiliotis-mcp-local-gateway-vnrtpy?s=readme)
