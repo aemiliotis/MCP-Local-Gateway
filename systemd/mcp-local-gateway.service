@@ -11,6 +11,7 @@ Group=www-data
 WorkingDirectory=/path/to/mcp-local-gateway
 EnvironmentFile=/path/to/mcp-local-gateway/.env
 Environment="PATH=/path/to/mcp-local-gateway/venv/bin"
+Environment="TESTING=0"
 ExecStart=/path/to/mcp-local-gateway/venv/bin/gunicorn \
     --workers 3 \
     --umask 007 \
