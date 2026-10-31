@@ -153,3 +153,6 @@ Rotate API keys regularly; store only their SHA-256 hashes.
 The gateway is not a substitute for securing each MCP server — it is an additional governance layer.
 
 Rate limits and budget caps are enforced server-side; don't rely on the client.
+
+
+[![M8ven Score](https://m8ven.ai/badge/mcp/aemiliotis/mcp-local-gateway)](https://m8ven.ai/mcp/aemiliotis/mcp-local-gateway?s=readme)
