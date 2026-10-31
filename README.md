@@ -3,7 +3,6 @@
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![M8ven Score](https://m8ven.ai/badge/mcp/aemiliotis-mcp-local-gateway-vnrtpy)](https://m8ven.ai/mcp/aemiliotis-mcp-local-gateway-vnrtpy?s=readme)
-[![M8ven Score](https://m8ven.ai/badge/mcp/aemiliotis/mcp-local-gateway)](https://m8ven.ai/mcp/aemiliotis/mcp-local-gateway?s=readme)
 
 A **self-hosted governance layer** for [MCP](https://modelcontextprotocol.io/) servers. It sits between your AI agent and any MCP server and adds:
 
